@@ -1,7 +1,7 @@
 import { computed, signal, Signal, WritableSignal } from '@angular/core';
 import { NavigationArgs, NavigationItem, NavigationOptionalInputs, NavigationProps } from './navigation-types';
 
-export class Navigation<T extends NavigationItem> implements NavigationProps<T> {
+export class NavigationModel<T extends NavigationItem> implements NavigationProps<T> {
   wrap: Signal<boolean>;
   items: Signal<T[]>;
   skipDisabled: Signal<boolean>;

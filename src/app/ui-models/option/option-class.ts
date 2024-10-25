@@ -4,7 +4,7 @@ import { ListboxProps } from '../listbox/listbox-types';
 
 let counter = 0;
 
-export class uiOption implements OptionProps {
+export class OptionModel implements OptionProps {
   disabled: Signal<boolean>;
 
   id = signal(`${counter++}`);

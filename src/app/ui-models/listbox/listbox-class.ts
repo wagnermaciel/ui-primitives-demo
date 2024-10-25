@@ -1,9 +1,9 @@
 import { computed, signal, Signal, WritableSignal } from '@angular/core';
 import { OptionProps } from '../option/option-types';
 import { ListboxArgs, ListboxInputs, ListboxOptionalInputs, ListboxProps } from './listbox-types';
-import { Navigation } from '../navigation/navigation-class';
+import { NavigationModel } from '../navigation/navigation-class';
 
-export class uiListbox extends Navigation<OptionProps> implements ListboxProps {
+export class ListboxModel extends NavigationModel<OptionProps> implements ListboxProps {
   orientation: Signal<string>;
   followFocus: Signal<boolean>;
   rovingFocus: Signal<boolean>;
