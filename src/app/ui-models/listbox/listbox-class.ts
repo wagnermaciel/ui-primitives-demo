@@ -1,26 +1,21 @@
 import { computed, signal, Signal, WritableSignal } from '@angular/core';
-import { OptionProps } from '../option/option-types';
-import { ListboxArgs, ListboxInputs, ListboxOptionalInputs, ListboxProps } from './listbox-types';
+import { ListboxProps } from './listbox-types';
 import { NavigationModel } from '../navigation/navigation-class';
+import { OptionProps } from '../option/option-types';
 
 export class ListboxModel extends NavigationModel<OptionProps> implements ListboxProps {
-  orientation: Signal<string>;
-  followFocus: Signal<boolean>;
-  rovingFocus: Signal<boolean>;
-  multiselectable: Signal<boolean>;
-  selectedIndices: WritableSignal<number[]>;
+  selectedIndices = signal<number[]>([]);
+
+  orientation = computed(() => 'vertical');
+  rovingFocus = computed(() => true);
+  followFocus = computed(() => false);
+  multiselectable = computed(() => false);
 
   tabindex = computed(() => (this.rovingFocus() ? -1 : 0));
   activedescendant = computed(() => this.rovingFocus() ? '' : this.activeItem().id());
 
-  constructor(args: ListboxArgs) {
-    super({ ...args });
-    const inputs: ListboxInputs = { ...this.listboxDefaults(), ...args };
-    this.orientation = inputs.orientation;
-    this.followFocus = inputs.followFocus;
-    this.rovingFocus = inputs.rovingFocus;
-    this.multiselectable = inputs.multiselectable;
-    this.selectedIndices = inputs.selectedIndices;
+  constructor() {
+    super();
 
     if (this.multiselectable() && this.followFocus()) {
       throw Error('A listbox cannot be multiselectable and have selection follow focus.');
@@ -42,15 +37,5 @@ export class ListboxModel extends NavigationModel<OptionProps> implements Listbo
 
   onPointerDown(event: PointerEvent) {
     console.log(event);
-  }
-
-  private listboxDefaults(): ListboxOptionalInputs {
-    return {
-      orientation: computed(() => 'vertical'),
-      rovingFocus: computed(() => true),
-      followFocus: computed(() => false),
-      multiselectable: computed(() => true),
-      selectedIndices: signal([0]),
-    };
   }
 }

@@ -5,7 +5,7 @@ export interface NavigationItem {
 }
 
 export interface NavigationProps<T extends NavigationItem> {
-  items: Signal<T[]>;
+  items: Signal<readonly T[]>;
   wrap: Signal<boolean>;
   activeItem: Signal<T>;
   skipDisabled: Signal<boolean>;
