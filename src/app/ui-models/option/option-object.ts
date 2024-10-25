@@ -1,5 +1,5 @@
 import { computed, signal } from '@angular/core';
-import { OptionArgs, OptionInputs, OptionProps } from './option-types';
+import { OptionArgs, OptionInputs, OptionOptionalInputs, OptionProps } from './option-types';
 import { ListboxProps } from '../listbox/listbox-types';
 
 let counter = 0;
@@ -26,6 +26,6 @@ export function optionModel(listbox: ListboxProps, args: OptionArgs): OptionProp
   };
 }
 
-function optionDefaults() {
+function optionDefaults(): OptionOptionalInputs {
   return { disabled: signal(false) };
 }
