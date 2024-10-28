@@ -1,9 +1,10 @@
 import { computed, signal } from '@angular/core';
-import { ListboxProps } from './listbox-types';
-import { NavigationModel } from '../navigation/navigation-class';
+import { ListboxArgs, ListboxProps } from './listbox-types';
+import { NavigationModel } from '../navigation/navigation-class-no-inheritance';
 import { OptionProps } from '../option/option-types';
+import { NavigationArgs, NavigationProps } from '../navigation';
 
-export class ListboxModel<T extends OptionProps> extends NavigationModel<T> implements ListboxProps {
+export class ListboxModel<T extends OptionProps> implements Omit<ListboxProps, keyof NavigationProps<T>> {
   selectedIndices = signal<number[]>([]);
 
   orientation = computed(() => 'vertical');
@@ -12,10 +13,12 @@ export class ListboxModel<T extends OptionProps> extends NavigationModel<T> impl
   multiselectable = computed(() => false);
 
   tabindex = computed(() => (this.rovingFocus() ? -1 : 0));
-  activedescendant = computed(() => this.rovingFocus() ? '' : this.activeItem()?.id() || '');
+  activedescendant = computed(() => this.rovingFocus() ? '' : this.navigation.activeItem()?.id() || '');
 
-  constructor() {
-    super();
+  navigation: NavigationModel<T>;
+
+  constructor(args: ListboxArgs & NavigationArgs<T>) {
+    this.navigation = new NavigationModel(args);
 
     if (this.multiselectable() && this.followFocus()) {
       throw Error('A listbox cannot be multiselectable and have selection follow focus.');
@@ -25,13 +28,13 @@ export class ListboxModel<T extends OptionProps> extends NavigationModel<T> impl
   onKeyDown(event: KeyboardEvent) {
     switch (event.key) {
       case 'ArrowUp':
-        return this.navigatePrev();
+        return this.navigation.navigatePrev();
       case 'ArrowDown':
-        return this.navigateNext();
+        return this.navigation.navigateNext();
       case 'ArrowLeft':
-        return this.navigatePrev();
+        return this.navigation.navigatePrev();
       case 'ArrowRight':
-        return this.navigateNext();
+        return this.navigation.navigateNext();
     }
   }
 

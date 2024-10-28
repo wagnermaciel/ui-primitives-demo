@@ -4,25 +4,21 @@ import { ListboxProps } from '../listbox/listbox-types';
 
 let counter = 0;
 
-export function optionModel(listbox: ListboxProps, args: OptionArgs): OptionProps {
+export function optionModel(args: OptionArgs & { listbox: ListboxProps }): OptionProps {
   const inputs: OptionInputs = { ...optionDefaults(), ...args };
 
   const id = signal(`${counter++}`);
-
-  const active = computed(() => listbox.activeItem().id() === id());
-  const setsize = computed(() => listbox.items().length);
-  const posinset = computed(() => listbox.items().findIndex(item => item.id() === id()));
-  const tabindex = computed(() => listbox.rovingFocus() && active() ? 0 : -1);
-  const selected = computed(() => listbox.selectedIndices().includes(posinset()));
+  const active = computed(() => args.listbox.activeItem()?.id() === id());
+  const posinset = computed(() => args.listbox.items().findIndex(item => item.id() === id()));
 
   return {
     ...inputs,
     id,
     active,
-    setsize,
     posinset,
-    tabindex,
-    selected,
+    setsize: computed(() => args.listbox.items().length),
+    tabindex: computed(() => args.listbox.rovingFocus() && active() ? 0 : -1),
+    selected: computed(() => args.listbox.selectedIndices().includes(posinset())),
   };
 }
 

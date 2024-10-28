@@ -7,7 +7,7 @@ export interface NavigationItem {
 export interface NavigationProps<T extends NavigationItem> {
   items: Signal<readonly T[]>;
   wrap: Signal<boolean>;
-  activeItem: Signal<T>;
+  activeItem: Signal<T | undefined>;
   skipDisabled: Signal<boolean>;
   activeIndex: WritableSignal<number>;
   navigatePrev: () => void;

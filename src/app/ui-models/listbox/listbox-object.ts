@@ -9,7 +9,7 @@ export function listboxModel(args: ListboxArgs): ListboxProps {
   const inputs: ListboxInputs = { ...listboxDefaults(), ...args };
 
   const tabindex = computed(() => inputs.rovingFocus() ? -1 : 0);
-  const activedescendant = computed(() => inputs.rovingFocus() ? '' : navigation.activeItem().id());
+  const activedescendant = computed(() => inputs.rovingFocus() ? '' : navigation.activeItem()?.id() ?? '');
 
   return {
     ...inputs,

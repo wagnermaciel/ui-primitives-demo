@@ -6,7 +6,7 @@ export function navigationModel<T extends NavigationItem>(args: NavigationArgs<T
 
   return {
     ...inputs,
-    activeItem: computed(() => getItem(inputs, inputs.activeIndex())),
+    activeItem: computed(() => inputs.items().at(inputs.activeIndex())),
     navigatePrev: () => navigate(inputs, getPrevIndex),
     navigateNext: () => navigate(inputs, getNextIndex),
   };
@@ -15,17 +15,13 @@ export function navigationModel<T extends NavigationItem>(args: NavigationArgs<T
 function navigate<T extends NavigationItem>(inputs: NavigationInputs<T>, navigateFn: (inputs: NavigationInputs<T>, i: number) => number) {
   const index = signal(inputs.activeIndex());
   const isLoop = computed(() => index() === inputs.activeIndex());
-  const shouldSkip = computed(() => inputs.skipDisabled() && getItem(inputs, index()).disabled());
+  const shouldSkip = computed(() => inputs.skipDisabled() && inputs.items().at(index())?.disabled());
 
   do {
     index.update((i) => navigateFn(inputs, i));
   } while (shouldSkip() && !isLoop());
 
   inputs.activeIndex.set(index());
-}
-
-function getItem<T extends NavigationItem>({ items }: NavigationInputs<T>, index: number): T {
-  return items()[index];
 }
 
 function getPrevIndex<T extends NavigationItem>({ items, wrap }: NavigationInputs<T>, index: number): number {

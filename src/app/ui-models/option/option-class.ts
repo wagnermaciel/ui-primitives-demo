@@ -9,7 +9,7 @@ export class OptionModel implements OptionProps {
 
   id = signal(`${counter++}`);
   disabled = computed(() => false);
-  active = computed(() => this.listbox.activeItem().id() === this.id());
+  active = computed(() => this.listbox.activeItem()?.id() === this.id());
   setsize = computed(() => this.listbox.items().length);
   posinset = computed(() => this.listbox.items().findIndex(item => item.id() === this.id()));
   tabindex = computed(() => this.listbox.rovingFocus() && this.active() ? 0 : -1);

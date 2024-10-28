@@ -1,14 +1,21 @@
-import { computed, signal } from '@angular/core';
-import { NavigationItem, NavigationProps } from './navigation-types';
+import { computed, Signal, signal, WritableSignal } from '@angular/core';
+import { NavigationArgs, NavigationItem, NavigationProps } from './navigation-types';
 
 export class NavigationModel<T extends NavigationItem> implements NavigationProps<T> {
+  items: Signal<readonly T[]>;
+
   wrap = computed(() => true);
   skipDisabled = computed(() => false);
 
   activeIndex = signal(0);
   activeItem = computed(() => this.items().at(this.activeIndex()));
 
-  items = computed<readonly T[]>(() => []);
+  constructor(args: NavigationArgs<T>) {
+    this.items = args.items;
+    this.wrap = args.wrap ?? this.wrap;
+    this.activeIndex = args.activeIndex ?? this.activeIndex;
+    this.skipDisabled = args.skipDisabled ?? this.skipDisabled;
+  }
 
   navigatePrev() {
     this.navigate(this.getPrevIndex);
@@ -33,12 +40,12 @@ export class NavigationModel<T extends NavigationItem> implements NavigationProp
   getPrevIndex = (index: number): number => {
     const endIndex = this.items().length - 1;
     const prevIndex = this.wrap() && index === 0 ? endIndex : index - 1;
-    return Math.max(0, prevIndex);
+    return Math.min(endIndex, prevIndex);
   }
 
   getNextIndex = (index: number): number => {
     const endIndex = this.items().length - 1;
     const nextIndex = this.wrap() && index === endIndex ? 0 : index + 1;
-    return Math.min(endIndex, nextIndex);
+    return Math.max(0, nextIndex);
   }
 }
