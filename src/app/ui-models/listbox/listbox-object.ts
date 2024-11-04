@@ -4,6 +4,9 @@ import { navigationModel } from '../navigation/navigation-object';
 import { NavigationProps } from '../navigation';
 import { OptionProps } from '../option/option-types';
 
+// Less of an Angular style.
+// Talk with Alex & Pawel about this. See if this fits their vision for the future of Angular.
+
 export function listboxModel(args: ListboxArgs): ListboxProps {
   const navigation = navigationModel(args);
   const inputs: ListboxInputs = { ...listboxDefaults(), ...args };

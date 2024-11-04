@@ -1,5 +1,5 @@
-import { computed, signal, Signal } from '@angular/core';
-import { OptionArgs, OptionProps } from '../option/option-types';
+import { computed, signal } from '@angular/core';
+import { OptionProps } from './option-types';
 import { ListboxModel } from '../listbox/listbox-class';
 
 let counter = 0;
