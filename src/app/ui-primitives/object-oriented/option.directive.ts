@@ -1,6 +1,6 @@
 import { Directive, ElementRef, inject, model } from '@angular/core';
-import { OptionModel } from '../../ui-models/option/option-class';
-import { ListboxClassDirective } from '../listbox/listbox-class.directive';
+import { OptionComposable } from '../../composables/object-oriented/option';
+import { ListboxDirective } from './listbox.directive';
 
 @Directive({
   selector: '[appOptionClass]',
@@ -16,9 +16,8 @@ import { ListboxClassDirective } from '../listbox/listbox-class.directive';
     '[attr.aria-disabled]': 'disabled()',
   }
 })
-export class OptionClassDirective extends OptionModel {
-  override disabled = model(false);
-  override listbox = inject(ListboxClassDirective);
-
+export class OptionClassDirective extends OptionComposable {
+  disabled = model.required<boolean>();
   elementRef = inject(ElementRef);
+  listbox = inject<ListboxDirective>(ListboxDirective);
 }

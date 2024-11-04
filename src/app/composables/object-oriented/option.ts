@@ -1,14 +1,14 @@
-import { computed, signal } from '@angular/core';
-import { OptionProps } from './option-types';
-import { ListboxModel } from '../listbox/listbox-class';
+import { computed, Signal, signal } from '@angular/core';
+import { OptionProps } from '../types/option';
+import { ListboxComposable } from './listbox';
 
 let counter = 0;
 
-export class OptionModel implements OptionProps {
-  listbox = new ListboxModel();
+export abstract class OptionComposable implements OptionProps {
+  abstract disabled: Signal<boolean>;
+  abstract listbox: ListboxComposable<OptionComposable>;
 
   id = signal(`${counter++}`);
-  disabled = computed(() => false);
   active = computed(() => this.listbox.activeItem()?.id() === this.id());
   setsize = computed(() => this.listbox.items().length);
   posinset = computed(() => this.listbox.items().findIndex(item => item.id() === this.id()));

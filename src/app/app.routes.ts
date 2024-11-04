@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
-import { ListboxClassComponent } from './ui-demos/listbox-class/listbox-class.component';
-import { ListboxObjectComponent } from './ui-demos/listbox-object/listbox-object.component';
-import { ListboxClassNoInheritanceComponent } from './ui-demos/listbox-class-no-inheritance/listbox-class-no-inheritance.component';
+import { ListboxClassComponent } from './demos/listbox-class/listbox-class.component';
+import { ListboxObjectComponent } from './demos/listbox-object/listbox-object.component';
+import { ListboxClassNoInheritanceComponent } from './demos/listbox-class-no-inheritance/listbox-class-no-inheritance.component';
 
 export const routes: Routes = [
   { path: 'listbox-class', component: ListboxClassComponent },
